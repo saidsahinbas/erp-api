@@ -1,10 +1,9 @@
 package com.dev.thesisapi.controller.authority;
 
+import com.dev.thesisapi.dto.AuthorityGroupCreateDto;
 import com.dev.thesisapi.entity.AuthorityGroup;
 import com.dev.thesisapi.service.AuthorityService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,4 +22,8 @@ public class AuthorityController {
         return authorityService.getAllAuthorityGroups();
     }
 
+    @PostMapping("create")
+    public Boolean createAuthorityGroup(@RequestBody AuthorityGroupCreateDto authorityGroupDto) {
+        return authorityService.create(authorityGroupDto);
+    }
 }

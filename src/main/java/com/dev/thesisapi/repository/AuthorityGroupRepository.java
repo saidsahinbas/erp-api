@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface AuthorityGroupRepository extends CrudRepository<AuthorityGroup, Integer> {
     List<AuthorityGroup> findAll();
+    AuthorityGroup save(AuthorityGroup entity);
 }
