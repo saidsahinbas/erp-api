@@ -1,7 +1,10 @@
 package com.dev.thesisapi.repository;
 
 import com.dev.thesisapi.entity.AuthorityGroup;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.dev.thesisapi.repository.base.CrudRepository;
 
-public interface AuthorityGroupRepository extends JpaRepository<AuthorityGroup, Integer> {
+import java.util.List;
+
+public interface AuthorityGroupRepository extends CrudRepository<AuthorityGroup, Integer> {
+    List<AuthorityGroup> findAll();
 }

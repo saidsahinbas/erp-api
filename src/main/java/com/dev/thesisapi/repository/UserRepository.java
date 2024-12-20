@@ -1,8 +1,11 @@
 package com.dev.thesisapi.repository;
 
 import com.dev.thesisapi.entity.User;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.dev.thesisapi.repository.base.CrudRepository;
 
-public interface UserRepository extends JpaRepository<User, Integer> {
+import java.util.List;
+
+public interface UserRepository extends CrudRepository<User, Integer> {
     User findByEmail(String email);
+    List<User> findAll();
 }

@@ -1,13 +1,11 @@
 package com.dev.thesisapi.service;
 
+import com.dev.thesisapi.dto.UserCreateDto;
 import com.dev.thesisapi.dto.UserLoginRequestDto;
 import com.dev.thesisapi.entity.RolePermission;
 import com.dev.thesisapi.entity.Screen;
 import com.dev.thesisapi.entity.User;
-import com.dev.thesisapi.repository.RolePermissionRepository;
-import com.dev.thesisapi.repository.RoleRepository;
-import com.dev.thesisapi.repository.ScreenRepository;
-import com.dev.thesisapi.repository.UserRepository;
+import com.dev.thesisapi.repository.*;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,12 +18,14 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final RolePermissionRepository rolePermissionsRepository;
+    private final AuthorityGroupRepository authorityGroupRepository;
     private final ScreenRepository screenRepository;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, RolePermissionRepository rolePermissionsRepository, ScreenRepository screenRepository) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, RolePermissionRepository rolePermissionsRepository, AuthorityGroupRepository authorityGroupRepository, ScreenRepository screenRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.rolePermissionsRepository = rolePermissionsRepository;
+        this.authorityGroupRepository = authorityGroupRepository;
         this.screenRepository = screenRepository;
     }
 
@@ -77,5 +77,22 @@ public class UserService {
         userSessionData.put("screens", screens);
 
         return userSessionData;
+    }
+
+    public User createUser(UserCreateDto user) {
+        User newUser = new User();
+        newUser.setFirstName(user.getFirstName());
+        newUser.setLastName(user.getLastName());
+        newUser.setEmail(user.getEmail());
+        newUser.setPassword(user.getPassword());
+        newUser.setRole(roleRepository.findById(user.getRoleId()).orElse(null));
+        newUser.setAuthorityGroup(authorityGroupRepository.findById(user.getAuthorityGroupId()).get());
+        newUser.setStatus(user.getStatus().equals("active"));
+
+        return userRepository.save(newUser);
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 }
