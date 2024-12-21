@@ -114,4 +114,9 @@ public class UserService {
         List<Long> userIds = userList.stream().map(User::getId).collect(Collectors.toList());
         return userIds;
     }
+
+    public String deleteUser(Integer id) {
+        userRepository.deleteById(id);
+        return "User deleted successfully";
+    }
 }

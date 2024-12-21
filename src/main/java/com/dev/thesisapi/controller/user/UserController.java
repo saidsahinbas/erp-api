@@ -32,4 +32,9 @@ public class UserController {
     public List<User> getUsersByAuthorityGroup(@PathVariable Integer id) {
         return userService.getUsersByAuthorityGroup(id);
     }
+
+    @DeleteMapping("{id}/delete")
+    public ResponseEntity<String> deleteUser(@PathVariable Integer id) {
+        return ResponseEntity.ok(userService.deleteUser(id));
+    }
 }
