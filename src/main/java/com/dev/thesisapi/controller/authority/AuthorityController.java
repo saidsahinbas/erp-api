@@ -1,6 +1,7 @@
 package com.dev.thesisapi.controller.authority;
 
 import com.dev.thesisapi.dto.AuthorityGroupCreateDto;
+import com.dev.thesisapi.dto.AuthorityGroupUpdateDto;
 import com.dev.thesisapi.entity.AuthorityGroup;
 import com.dev.thesisapi.service.AuthorityService;
 import org.springframework.web.bind.annotation.*;
@@ -32,4 +33,8 @@ public class AuthorityController {
         return authorityService.getAuthorityGroup(id);
     }
 
+    @PutMapping("update")
+    public void updateAuthorityGroup(@RequestBody AuthorityGroupUpdateDto authorityGroupDto) {
+        authorityService.update(authorityGroupDto);
+    }
 }

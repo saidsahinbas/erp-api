@@ -11,4 +11,6 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     List<User> findAll();
 
     List<User> findByAuthorityGroup(AuthorityGroup authorityGroup);
+
+    List<User> findByAuthorityGroup_Id(Integer authorityGroupId);
 }

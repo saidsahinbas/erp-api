@@ -22,4 +22,8 @@ public class RolePermissionService {
     public List<RolePermission> getPermissionsByAuthorityGroup(Integer id) {
         return rolePermissionRepository.findByAuthorityGroupId(id);
     }
+
+    public RolePermission getPermissionByAuthorityAndScreen(Integer id, Integer screenId) {
+        return rolePermissionRepository.findByAuthorityGroupIdAndScreen_Id(id, screenId);
+    }
 }

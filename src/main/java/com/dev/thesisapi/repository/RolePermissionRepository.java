@@ -10,4 +10,6 @@ public interface RolePermissionRepository extends CrudRepository<RolePermission,
     List<RolePermission> findByAuthorityGroup(AuthorityGroup authorityGroup);
 
     List<RolePermission> findByAuthorityGroupId(Integer id);
+
+    RolePermission findByAuthorityGroupIdAndScreen_Id(Integer authorityGroupId, Integer screenId);
 }

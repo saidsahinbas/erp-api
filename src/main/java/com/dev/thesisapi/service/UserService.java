@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -98,5 +99,19 @@ public class UserService {
 
     public List<User> getUsersByAuthorityGroup(Integer id) {
         return userRepository.findByAuthorityGroup(authorityGroupRepository.findById(id).get());
+    }
+
+    public User getUser(Integer userId) {
+        return userRepository.findById(userId).orElse(null);
+    }
+
+    public void save(User user) {
+        userRepository.save(user);
+    }
+
+    public List<Long> getUserIdsByAuthorityId(Integer authorityId) {
+        List<User> userList = userRepository.findByAuthorityGroup_Id(authorityId);
+        List<Long> userIds = userList.stream().map(User::getId).collect(Collectors.toList());
+        return userIds;
     }
 }
