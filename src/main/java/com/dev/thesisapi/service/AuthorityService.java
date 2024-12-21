@@ -1,6 +1,8 @@
 package com.dev.thesisapi.service;
 
+import com.dev.thesisapi.dto.AuthorityGroupAddUserDto;
 import com.dev.thesisapi.dto.AuthorityGroupCreateDto;
+import com.dev.thesisapi.dto.AuthorityGroupDeleteUserDto;
 import com.dev.thesisapi.dto.AuthorityGroupUpdateDto;
 import com.dev.thesisapi.entity.AuthorityGroup;
 import com.dev.thesisapi.entity.RolePermission;
@@ -80,21 +82,24 @@ public class AuthorityService {
             rolePermissionService.saveRolePermission(rolePermission);
         }
 
-        for (var userInfo : authorityGroupDto.getUserItemList()){
+    }
+
+    public List<User> addUser(AuthorityGroupAddUserDto authorityGroupDto) {
+        AuthorityGroup authorityGroup = authorityGroupRepository.findById(authorityGroupDto.getId()).orElse(null);
+        for (var userInfo : authorityGroupDto.getUserIds()){
             User user = userService.getUser(userInfo);
-            user.setAuthorityGroup(authorityGroupNew);
+            user.setAuthorityGroup(authorityGroup);
             userService.save(user);
         }
 
-        List<Long> userList = userService.getUserIdsByAuthorityId(authorityGroupDto.getId());
-        for (var userId : userList){
-            if (!authorityGroupDto.getUserItemList().contains(userId.intValue())) {
-                User user = userService.getUser(userId.intValue());
-                user.setAuthorityGroup(null);
-                userService.save(user);
-            }
+        return userService.getUsersByAuthorityGroup(authorityGroupDto.getId());
+    }
 
-        }
+    public List<User> deleteUser(AuthorityGroupDeleteUserDto authorityGroupDeleteUserDto) {
+        User user = userService.getUser(authorityGroupDeleteUserDto.getUserId());
+        user.setAuthorityGroup(null);
+        userService.save(user);
 
+        return userService.getUsersByAuthorityGroup(authorityGroupDeleteUserDto.getId());
     }
 }

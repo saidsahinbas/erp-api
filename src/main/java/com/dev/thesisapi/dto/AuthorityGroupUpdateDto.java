@@ -6,16 +6,14 @@ public class AuthorityGroupUpdateDto {
     private Integer id;
     private String groupName;
     private List<RolePermissionItem> rolePermissionItems;
-    private List<Integer> userItemList;
 
     public AuthorityGroupUpdateDto() {
     }
 
-    public AuthorityGroupUpdateDto(Integer id, String groupName, List<RolePermissionItem> rolePermissionItems, List<Integer> userItemList) {
+    public AuthorityGroupUpdateDto(Integer id, String groupName, List<RolePermissionItem> rolePermissionItems) {
         this.id = id;
         this.groupName = groupName;
         this.rolePermissionItems = rolePermissionItems;
-        this.userItemList = userItemList;
     }
 
     public Integer getId() {
@@ -42,15 +40,6 @@ public class AuthorityGroupUpdateDto {
 
     public AuthorityGroupUpdateDto setRolePermissionItems(List<RolePermissionItem> rolePermissionItems) {
         this.rolePermissionItems = rolePermissionItems;
-        return this;
-    }
-
-    public List<Integer> getUserItemList() {
-        return userItemList;
-    }
-
-    public AuthorityGroupUpdateDto setUserItemList(List<Integer> userItemList) {
-        this.userItemList = userItemList;
         return this;
     }
 

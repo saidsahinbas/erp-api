@@ -1,8 +1,11 @@
 package com.dev.thesisapi.controller.authority;
 
+import com.dev.thesisapi.dto.AuthorityGroupAddUserDto;
 import com.dev.thesisapi.dto.AuthorityGroupCreateDto;
+import com.dev.thesisapi.dto.AuthorityGroupDeleteUserDto;
 import com.dev.thesisapi.dto.AuthorityGroupUpdateDto;
 import com.dev.thesisapi.entity.AuthorityGroup;
+import com.dev.thesisapi.entity.User;
 import com.dev.thesisapi.service.AuthorityService;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,8 +36,18 @@ public class AuthorityController {
         return authorityService.getAuthorityGroup(id);
     }
 
-    @PutMapping("update")
+    @PostMapping("update")
     public void updateAuthorityGroup(@RequestBody AuthorityGroupUpdateDto authorityGroupDto) {
         authorityService.update(authorityGroupDto);
+    }
+
+    @PostMapping("adduser")
+    public List<User> addUser(@RequestBody AuthorityGroupAddUserDto authorityGroupDto) {
+        return authorityService.addUser(authorityGroupDto);
+    }
+
+    @PostMapping("deleteuser")
+    public List<User> deleteUser(@RequestBody AuthorityGroupDeleteUserDto authorityGroupDeleteUserDto) {
+        return authorityService.deleteUser(authorityGroupDeleteUserDto);
     }
 }
