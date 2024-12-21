@@ -27,4 +27,9 @@ public class UserController {
     public ResponseEntity<User> createUser(@RequestBody  UserCreateDto user) {
         return ResponseEntity.ok(userService.createUser(user));
     }
+
+    @GetMapping("{id}/users")
+    public List<User> getUsersByAuthorityGroup(@PathVariable Integer id) {
+        return userService.getUsersByAuthorityGroup(id);
+    }
 }

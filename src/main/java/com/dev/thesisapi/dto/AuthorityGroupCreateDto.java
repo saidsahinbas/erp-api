@@ -18,16 +18,18 @@ public class AuthorityGroupCreateDto {
         return groupName;
     }
 
-    public void setGroupName(String groupName) {
+    public AuthorityGroupCreateDto setGroupName(String groupName) {
         this.groupName = groupName;
+        return this;
     }
 
     public List<RolePermissionItem> getRolePermissionItems() {
         return rolePermissionItems;
     }
 
-    public void setRolePermissionItems(List<RolePermissionItem> rolePermissionItems) {
+    public AuthorityGroupCreateDto setRolePermissionItems(List<RolePermissionItem> rolePermissionItems) {
         this.rolePermissionItems = rolePermissionItems;
+        return this;
     }
 
     public static class RolePermissionItem {
@@ -52,40 +54,45 @@ public class AuthorityGroupCreateDto {
             return screenId;
         }
 
-        public void setScreenId(Integer screenId) {
+        public RolePermissionItem setScreenId(Integer screenId) {
             this.screenId = screenId;
+            return this;
         }
 
         public Boolean getCreate() {
             return create;
         }
 
-        public void setCreate(Boolean create) {
+        public RolePermissionItem setCreate(Boolean create) {
             this.create = create;
+            return this;
         }
 
         public Boolean getDelete() {
             return delete;
         }
 
-        public void setDelete(Boolean delete) {
+        public RolePermissionItem setDelete(Boolean delete) {
             this.delete = delete;
+            return this;
         }
 
         public Boolean getRead() {
             return read;
         }
 
-        public void setRead(Boolean read) {
+        public RolePermissionItem setRead(Boolean read) {
             this.read = read;
+            return this;
         }
 
         public Boolean getUpdate() {
             return update;
         }
 
-        public void setUpdate(Boolean update) {
+        public RolePermissionItem setUpdate(Boolean update) {
             this.update = update;
+            return this;
         }
     }
 

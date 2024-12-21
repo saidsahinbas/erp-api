@@ -4,6 +4,7 @@ import com.dev.thesisapi.dto.AuthorityGroupCreateDto;
 import com.dev.thesisapi.entity.AuthorityGroup;
 import com.dev.thesisapi.entity.RolePermission;
 import com.dev.thesisapi.repository.AuthorityGroupRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,8 +26,8 @@ public class AuthorityService {
     }
 
     public Boolean create(AuthorityGroupCreateDto authorityGroupDto) {
-        try{
-            //save authority group
+        try {
+            // Save authority group
             AuthorityGroup authorityGroup = new AuthorityGroup();
             authorityGroup.setName(authorityGroupDto.getGroupName());
             var authorityGroupNew = authorityGroupRepository.save(authorityGroup);
@@ -34,7 +35,7 @@ public class AuthorityService {
             for (var rolePermissionInfo : authorityGroupDto.getRolePermissionItems()) {
                 var screen = screenService.getById(rolePermissionInfo.getScreenId());
                 RolePermission rolePermission = new RolePermission();
-                rolePermission.setAuthorityGroup(authorityGroupNew);
+                rolePermission.setAuthorityGroup(authorityGroupNew); // No need to re-query
                 rolePermission.setScreen(screen);
                 rolePermission.setCreate(rolePermissionInfo.getCreate());
                 rolePermission.setRead(rolePermissionInfo.getRead());
@@ -43,8 +44,18 @@ public class AuthorityService {
                 rolePermissionService.saveRolePermission(rolePermission);
             }
             return true;
+        } catch (DataIntegrityViolationException e) {
+            // Log duplicate key error
+            System.err.println("Duplicate key error: " + e.getMessage());
+            return false;
         } catch (Exception e) {
+            // Log general error
+            System.err.println("Error creating authority group: " + e.getMessage());
             return false;
         }
+    }
+
+    public AuthorityGroup getAuthorityGroup(Integer id) {
+        return authorityGroupRepository.findById(id).orElse(null);
     }
 }

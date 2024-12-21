@@ -95,4 +95,8 @@ public class UserService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+
+    public List<User> getUsersByAuthorityGroup(Integer id) {
+        return userRepository.findByAuthorityGroup(authorityGroupRepository.findById(id).get());
+    }
 }

@@ -26,4 +26,10 @@ public class AuthorityController {
     public Boolean createAuthorityGroup(@RequestBody AuthorityGroupCreateDto authorityGroupDto) {
         return authorityService.create(authorityGroupDto);
     }
+
+    @GetMapping("{id}")
+    public AuthorityGroup getAuthorityGroup(@PathVariable Integer id) {
+        return authorityService.getAuthorityGroup(id);
+    }
+
 }

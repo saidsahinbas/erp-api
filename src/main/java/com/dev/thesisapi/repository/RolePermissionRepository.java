@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface RolePermissionRepository extends CrudRepository<RolePermission, Integer> {
     List<RolePermission> findByAuthorityGroup(AuthorityGroup authorityGroup);
+
+    List<RolePermission> findByAuthorityGroupId(Integer id);
 }

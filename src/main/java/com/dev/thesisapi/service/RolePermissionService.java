@@ -4,6 +4,8 @@ import com.dev.thesisapi.entity.RolePermission;
 import com.dev.thesisapi.repository.RolePermissionRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RolePermissionService {
 
@@ -15,5 +17,9 @@ public class RolePermissionService {
 
     public void saveRolePermission(RolePermission rolePermission) {
         rolePermissionRepository.save(rolePermission);
+    }
+
+    public List<RolePermission> getPermissionsByAuthorityGroup(Integer id) {
+        return rolePermissionRepository.findByAuthorityGroupId(id);
     }
 }
