@@ -1,4 +1,4 @@
-package com.dev.thesisapi.dto;
+package com.dev.thesisapi.dto.authority;
 
 import java.util.List;
 

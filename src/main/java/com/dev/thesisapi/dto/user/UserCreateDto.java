@@ -1,4 +1,4 @@
-package com.dev.thesisapi.dto;
+package com.dev.thesisapi.dto.user;
 
 public class UserCreateDto {
     private String firstName;

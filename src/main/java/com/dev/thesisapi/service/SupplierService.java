@@ -1,12 +1,13 @@
 package com.dev.thesisapi.service;
 
+import com.dev.thesisapi.repository.SupplierRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SupplierService {
-    private final SupplierService supplierService;
+    private final SupplierRepository supplierRepository;
 
-    public SupplierService(SupplierService supplierService) {
-        this.supplierService = supplierService;
+    public SupplierService(SupplierRepository supplierRepository) {
+        this.supplierRepository = supplierRepository;
     }
 }

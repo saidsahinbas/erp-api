@@ -1,6 +1,6 @@
 package com.dev.thesisapi.controller.user;
 
-import com.dev.thesisapi.dto.UserCreateDto;
+import com.dev.thesisapi.dto.user.UserCreateDto;
 import com.dev.thesisapi.entity.User;
 import com.dev.thesisapi.service.UserService;
 import org.springframework.http.ResponseEntity;
