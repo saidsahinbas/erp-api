@@ -47,20 +47,26 @@ public class Product {
     )
     private Set<Supplier> suppliers;
 
+    @ElementCollection(targetClass = ProductStatus.class)
+    @CollectionTable(name = "product_status_mapping", joinColumns = @JoinColumn(name = "product_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private Set<ProductStatus> productStatuses;
+
     public Product() {
     }
 
-    public Product(Integer id, String productName, String code, BigDecimal purchasePrice, BigDecimal salePrice, String description, Category category, String image1, String image2, Set<Supplier> suppliers) {
-        this.id = id;
+    public Product(String productName, String code, BigDecimal purchasePrice, BigDecimal salePrice, String description, Category category, Set<Supplier> suppliers, Set<ProductStatus> productStatuses, String image1, String image2) {
         this.productName = productName;
         this.code = code;
         this.purchasePrice = purchasePrice;
         this.salePrice = salePrice;
         this.description = description;
         this.category = category;
+        this.suppliers = suppliers;
         this.image1 = image1;
         this.image2 = image2;
-        this.suppliers = suppliers;
+        this.productStatuses = productStatuses;
     }
 
     public Integer getId() {
@@ -125,6 +131,14 @@ public class Product {
 
     public void setSuppliers(Set<Supplier> suppliers) {
         this.suppliers = suppliers;
+    }
+
+    public Set<ProductStatus> getProductStatuses() {
+        return productStatuses;
+    }
+
+    public void setProductStatuses(Set<ProductStatus> productStatuses) {
+        this.productStatuses = productStatuses;
     }
 
     public String getImage1() {
