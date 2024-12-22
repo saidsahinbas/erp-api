@@ -1,14 +1,13 @@
 package com.dev.thesisapi.service;
 
-import com.dev.thesisapi.dto.AuthorityGroupAddUserDto;
-import com.dev.thesisapi.dto.AuthorityGroupCreateDto;
-import com.dev.thesisapi.dto.AuthorityGroupDeleteUserDto;
-import com.dev.thesisapi.dto.AuthorityGroupUpdateDto;
+import com.dev.thesisapi.dto.authority.AuthorityGroupAddUserDto;
+import com.dev.thesisapi.dto.authority.AuthorityGroupCreateDto;
+import com.dev.thesisapi.dto.authority.AuthorityGroupDeleteUserDto;
+import com.dev.thesisapi.dto.authority.AuthorityGroupUpdateDto;
 import com.dev.thesisapi.entity.AuthorityGroup;
 import com.dev.thesisapi.entity.RolePermission;
 import com.dev.thesisapi.entity.User;
 import com.dev.thesisapi.repository.AuthorityGroupRepository;
-import com.dev.thesisapi.repository.RolePermissionRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 

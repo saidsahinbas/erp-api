@@ -1,7 +1,7 @@
 package com.dev.thesisapi.service;
 
-import com.dev.thesisapi.dto.UserCreateDto;
-import com.dev.thesisapi.dto.UserLoginRequestDto;
+import com.dev.thesisapi.dto.user.UserCreateDto;
+import com.dev.thesisapi.dto.user.UserLoginRequestDto;
 import com.dev.thesisapi.entity.RolePermission;
 import com.dev.thesisapi.entity.Screen;
 import com.dev.thesisapi.entity.User;

@@ -1,4 +1,4 @@
-package com.dev.thesisapi.dto;
+package com.dev.thesisapi.dto.authority;
 
 public class AuthorityGroupDeleteUserDto {
     private Integer id;

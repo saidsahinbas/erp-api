@@ -33,6 +33,12 @@ public class Product {
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
 
+    @Column( name = "image_1", columnDefinition = "text")
+    private String image1;
+
+    @Column(name = "image_2", columnDefinition = "text")
+    private String image2;
+
     @ManyToMany
     @JoinTable(
             name = "product_supplier",
@@ -44,13 +50,16 @@ public class Product {
     public Product() {
     }
 
-    public Product(String productName, String code, BigDecimal purchasePrice, BigDecimal salePrice, String description, Category category, Set<Supplier> suppliers) {
+    public Product(Integer id, String productName, String code, BigDecimal purchasePrice, BigDecimal salePrice, String description, Category category, String image1, String image2, Set<Supplier> suppliers) {
+        this.id = id;
         this.productName = productName;
         this.code = code;
         this.purchasePrice = purchasePrice;
         this.salePrice = salePrice;
         this.description = description;
         this.category = category;
+        this.image1 = image1;
+        this.image2 = image2;
         this.suppliers = suppliers;
     }
 
@@ -116,5 +125,21 @@ public class Product {
 
     public void setSuppliers(Set<Supplier> suppliers) {
         this.suppliers = suppliers;
+    }
+
+    public String getImage1() {
+        return image1;
+    }
+
+    public void setImage1(String image1) {
+        this.image1 = image1;
+    }
+
+    public String getImage2() {
+        return image2;
+    }
+
+    public void setImage2(String image2) {
+        this.image2 = image2;
     }
 }

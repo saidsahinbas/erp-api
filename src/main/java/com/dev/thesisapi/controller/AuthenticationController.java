@@ -1,6 +1,6 @@
 package com.dev.thesisapi.controller;
 
-import com.dev.thesisapi.dto.UserLoginRequestDto;
+import com.dev.thesisapi.dto.user.UserLoginRequestDto;
 import com.dev.thesisapi.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
