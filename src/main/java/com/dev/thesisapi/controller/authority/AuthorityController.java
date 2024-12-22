@@ -42,12 +42,12 @@ public class AuthorityController {
     }
 
     @PostMapping("adduser")
-    public List<User> addUser(@RequestBody AuthorityGroupAddUserDto authorityGroupDto) {
+    public List<User> addUserToAuthorityGroup(@RequestBody AuthorityGroupAddUserDto authorityGroupDto) {
         return authorityService.addUser(authorityGroupDto);
     }
 
-    @PostMapping("deleteuser")
-    public List<User> deleteUser(@RequestBody AuthorityGroupDeleteUserDto authorityGroupDeleteUserDto) {
+    @PostMapping("removeUser")
+    public List<User> removeUserFromAuthorityGroup(@RequestBody AuthorityGroupDeleteUserDto authorityGroupDeleteUserDto) {
         return authorityService.deleteUser(authorityGroupDeleteUserDto);
     }
 }
