@@ -1,7 +1,10 @@
 package com.dev.thesisapi.dto.product;
 
+import com.dev.thesisapi.entity.ProductStatus;
+
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 public class ProductCreateDto {
 
@@ -11,14 +14,15 @@ public class ProductCreateDto {
     private BigDecimal salePrice;
     private String description;
     private Integer categoryId;
-    private Integer supplierId;
+    private List<Integer> supplierId;
     private String image1;
     private String image2;
+    private Set<ProductStatus> productStatuses;
 
     public ProductCreateDto() {
     }
 
-    public ProductCreateDto(String name, String code, BigDecimal purchasePrice, BigDecimal salePrice, String description, Integer categoryId, Integer supplierIds, String image1, String image2) {
+    public ProductCreateDto(String name, String code, BigDecimal purchasePrice, BigDecimal salePrice, String description, Integer categoryId, List<Integer> supplierIds, String image1, String image2, Set<ProductStatus> productStatuses) {
         this.name = name;
         this.code = code;
         this.purchasePrice = purchasePrice;
@@ -28,6 +32,7 @@ public class ProductCreateDto {
         this.supplierId = supplierIds;
         this.image1 = image1;
         this.image2 = image2;
+        this.productStatuses = productStatuses;
     }
 
     public String getName() {
@@ -84,11 +89,11 @@ public class ProductCreateDto {
         return this;
     }
 
-    public Integer getSupplierId() {
+    public List<Integer> getSupplierId() {
         return supplierId;
     }
 
-    public ProductCreateDto setSupplierId(Integer supplierId) {
+    public ProductCreateDto setSupplierId(List<Integer> supplierId) {
         this.supplierId = supplierId;
         return this;
     }
@@ -108,6 +113,15 @@ public class ProductCreateDto {
 
     public ProductCreateDto setImage2(String image2) {
         this.image2 = image2;
+        return this;
+    }
+
+    public Set<ProductStatus> getProductStatuses() {
+        return productStatuses;
+    }
+
+    public ProductCreateDto setProductStatuses(Set<ProductStatus> productStatuses) {
+        this.productStatuses = productStatuses;
         return this;
     }
 }

@@ -1,5 +1,6 @@
 package com.dev.thesisapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -31,6 +32,7 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")
+    @JsonIgnore
     private Category category;
 
     @Column( name = "image_1", columnDefinition = "text")
@@ -39,18 +41,20 @@ public class Product {
     @Column(name = "image_2", columnDefinition = "text")
     private String image2;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "product_supplier",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "supplier_id")
     )
+    @JsonIgnore
     private Set<Supplier> suppliers;
 
     @ElementCollection(targetClass = ProductStatus.class)
     @CollectionTable(name = "product_status_mapping", joinColumns = @JoinColumn(name = "product_id"))
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
+    @JsonIgnore
     private Set<ProductStatus> productStatuses;
 
     public Product() {
