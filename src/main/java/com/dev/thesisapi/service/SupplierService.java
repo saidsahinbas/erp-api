@@ -17,4 +17,8 @@ public class SupplierService {
     public List<Supplier> getAllSuppliers() {
         return supplierRepository.findAll();
     }
+
+    public Supplier findById(Integer supplierId) {
+        return supplierRepository.findById(supplierId).orElse(null);
+    }
 }
