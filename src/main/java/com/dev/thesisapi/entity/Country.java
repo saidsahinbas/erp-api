@@ -29,26 +29,23 @@ public class Country {
         return id;
     }
 
-    public Country setId(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
-        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public Country setName(String name) {
+    public void setName(String name) {
         this.name = name;
-        return this;
     }
 
     public String getISO() {
         return ISO;
     }
 
-    public Country setISO(String ISO) {
+    public void setISO(String ISO) {
         this.ISO = ISO;
-        return this;
     }
 }

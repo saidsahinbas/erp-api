@@ -32,26 +32,23 @@ public class City {
         return id;
     }
 
-    public City setId(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
-        return this;
-    }
-
-    public Country getCountry() {
-        return country;
-    }
-
-    public City setCountry(Country country) {
-        this.country = country;
-        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public City setName(String name) {
+    public void setName(String name) {
         this.name = name;
-        return this;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
     }
 }
