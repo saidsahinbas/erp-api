@@ -30,17 +30,23 @@ public class QualityParameter {
     @Column(name = "max_value")
     private String maxValue;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    private Product product;
+
+
     public QualityParameter() {
     }
 
     public QualityParameter(String name, String description, ValueType valueType, String defaultValue,
-                            String minValue, String maxValue) {
+                            String minValue, String maxValue, Product product) {
         this.name = name;
         this.description = description;
         this.valueType = valueType;
         this.defaultValue = defaultValue;
         this.minValue = minValue;
         this.maxValue = maxValue;
+        this.product = product;
     }
 
     public Integer getId() {
@@ -97,6 +103,14 @@ public class QualityParameter {
 
     public void setMaxValue(String maxValue) {
         this.maxValue = maxValue;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }
 

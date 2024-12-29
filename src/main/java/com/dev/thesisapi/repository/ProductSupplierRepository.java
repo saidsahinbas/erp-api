@@ -18,4 +18,6 @@ public interface ProductSupplierRepository extends CrudRepository<ProductSupplie
 
     List<ProductSupplier> findAllByProductId(Integer productId);
 
+    ProductSupplier save(ProductSupplier productSupplier);
+
 }

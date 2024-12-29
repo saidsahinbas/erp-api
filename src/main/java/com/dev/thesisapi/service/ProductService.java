@@ -3,16 +3,11 @@ package com.dev.thesisapi.service;
 import com.dev.thesisapi.dto.product.GetAllProductResponseDto;
 import com.dev.thesisapi.dto.product.GetSingleProductDetailDto;
 import com.dev.thesisapi.dto.product.ProductCreateDto;
-import com.dev.thesisapi.entity.Product;
-import com.dev.thesisapi.entity.ProductStatus;
-import com.dev.thesisapi.entity.ProductSupplier;
-import com.dev.thesisapi.entity.Supplier;
-import com.dev.thesisapi.repository.CategoryRepository;
-import com.dev.thesisapi.repository.ProductRepository;
-import com.dev.thesisapi.repository.ProductSupplierRepository;
-import com.dev.thesisapi.repository.SupplierRepository;
+import com.dev.thesisapi.entity.*;
+import com.dev.thesisapi.repository.*;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,18 +19,24 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final SupplierRepository supplierRepository;
-
+    private final QualityParameterRepository qualityParameterRepository;
+    private final ProductSupplierQualityParameterRepository productSupplierQualityParameterRepository;
     private final ProductSupplierService productSupplierService;
 
     public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository,
-                          SupplierRepository supplierRepository, ProductSupplierService productSupplierService) {
+                          SupplierRepository supplierRepository, QualityParameterRepository qualityParameterRepository,
+                          ProductSupplierQualityParameterRepository productSupplierQualityParameterRepository,
+                          ProductSupplierService productSupplierService) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.supplierRepository = supplierRepository;
+        this.qualityParameterRepository = qualityParameterRepository;
+        this.productSupplierQualityParameterRepository = productSupplierQualityParameterRepository;
         this.productSupplierService = productSupplierService;
     }
 
     public void create(ProductCreateDto productCreateDto) {
+
         // Create a new Product object
         Product product = new Product();
         product.setProductName(productCreateDto.getName());
@@ -58,6 +59,7 @@ public class ProductService {
 
         // Create ProductSupplier relationships
         Set<Supplier> suppliers = new HashSet<>();
+        Set<ProductSupplier> productSupplierSet = new HashSet<>();
         for (Integer supplierId : productCreateDto.getSupplierId()) {
             Supplier supplier = supplierRepository.findById(supplierId)
                     .orElseThrow(() -> new IllegalArgumentException("Supplier not found: " + supplierId));
@@ -65,11 +67,31 @@ public class ProductService {
 
             // Create ProductSupplier and save
             ProductSupplier productSupplier = new ProductSupplier(savedProduct, supplier);
-            productSupplierService.create(productSupplier); // Use ProductSupplierService to save
+            var saveProductSupplier =  productSupplierService.create(productSupplier); // Use ProductSupplierService to save
+            productSupplierSet.add(saveProductSupplier);
         }
-
         // Set suppliers to product (optional, for consistency in memory)
         savedProduct.setSuppliers(suppliers);
+
+        for (var qualityParameterInfo : productCreateDto.getQualityParameterDtoSet()){
+            QualityParameter qualityParameter = new QualityParameter();
+            qualityParameter.setName(qualityParameterInfo.getName());
+            qualityParameter.setValueType(qualityParameterInfo.getValueType());
+            qualityParameter.setProduct(savedProduct);
+            qualityParameter.setMaxValue(qualityParameterInfo.getMaxValue());
+            qualityParameter.setMinValue(qualityParameterInfo.getMinValue());
+            qualityParameter.setDefaultValue(qualityParameterInfo.getDefaultValue());
+            qualityParameter.setDescription(qualityParameterInfo.getDescription());
+            var saveQualityParameter = qualityParameterRepository.save(qualityParameter);
+
+            for (var productSupplier : productSupplierSet) {
+                ProductSupplierQualityParameter productSupplierQualityParameter = new ProductSupplierQualityParameter();
+                productSupplierQualityParameter.setProductSupplier(productSupplier);
+                productSupplierQualityParameter.setQualityParameter(saveQualityParameter);
+                productSupplierQualityParameter.setCustomValue(qualityParameterInfo.getCustomValue());
+                productSupplierQualityParameterRepository.save(productSupplierQualityParameter);
+            }
+        }
     }
 
 

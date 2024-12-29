@@ -19,8 +19,8 @@ public class ProductSupplierService {
         this.supplierService = supplierService;
     }
 
-    public void create(ProductSupplier productSupplier) {
-        productSupplierRepository.save(productSupplier);
+    public ProductSupplier create(ProductSupplier productSupplier) {
+        return productSupplierRepository.save(productSupplier);
     }
 
     public List<Supplier> getAllProductSuppliers(Integer productId) {

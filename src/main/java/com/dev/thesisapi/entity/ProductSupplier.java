@@ -1,6 +1,11 @@
 package com.dev.thesisapi.entity;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Type;
+
+import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "product_supplier")
@@ -18,21 +23,13 @@ public class ProductSupplier {
     @JoinColumn(name = "supplier_id", referencedColumnName = "id")
     private Supplier supplier;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "quality_parameter_id", referencedColumnName = "id")
-    private QualityParameter qualityParameter; // Ön tanımlı kalite parametresi
-
-    @Column(name = "custom_value")
-    private String customValue;
 
     public ProductSupplier() {
     }
 
-    public ProductSupplier(Product product, Supplier supplier, QualityParameter qualityParameter, String customValue) {
+    public ProductSupplier(Product product, Supplier supplier) {
         this.product = product;
         this.supplier = supplier;
-        this.qualityParameter = qualityParameter;
-        this.customValue = customValue;
     }
 
     public Integer getId() {
@@ -59,19 +56,4 @@ public class ProductSupplier {
         this.supplier = supplier;
     }
 
-    public QualityParameter getQualityParameter() {
-        return qualityParameter;
-    }
-
-    public void setQualityParameter(QualityParameter qualityParameter) {
-        this.qualityParameter = qualityParameter;
-    }
-
-    public String getCustomValue() {
-        return customValue;
-    }
-
-    public void setCustomValue(String customValue) {
-        this.customValue = customValue;
-    }
 }
