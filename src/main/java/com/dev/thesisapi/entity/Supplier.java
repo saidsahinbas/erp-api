@@ -1,5 +1,6 @@
 package com.dev.thesisapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -21,13 +22,18 @@ public class Supplier {
     @ManyToMany(mappedBy = "suppliers")
     private Set<Product> products;
 
+    @OneToMany(mappedBy = "supplier")
+    @JsonIgnore
+    private Set<Document> documents;
+
     public Supplier() {
     }
 
-    public Supplier(String name, String contact, Set<Product> products) {
+    public Supplier(String name, String contact, Set<Product> products, Set<Document> documents) {
         this.name = name;
         this.contact = contact;
         this.products = products;
+        this.documents = documents;
     }
 
     public Integer getId() {
@@ -60,5 +66,13 @@ public class Supplier {
 
     public void setProducts(Set<Product> products) {
         this.products = products;
+    }
+
+    public Set<Document> getDocuments() {
+        return documents;
+    }
+
+    public void setDocuments(Set<Document> documents) {
+        this.documents = documents;
     }
 }

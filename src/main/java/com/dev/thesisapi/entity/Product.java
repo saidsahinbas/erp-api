@@ -57,10 +57,15 @@ public class Product {
     @JsonIgnore
     private Set<ProductStatus> productStatuses;
 
+    @OneToMany(mappedBy = "product")
+    @JsonIgnore
+    private Set<Document> documents;
+
     public Product() {
     }
 
-    public Product(String productName, String code, BigDecimal purchasePrice, BigDecimal salePrice, String description, Category category, Set<Supplier> suppliers, Set<ProductStatus> productStatuses, String image1, String image2) {
+    public Product(String productName, String code, BigDecimal purchasePrice, BigDecimal salePrice, String description,
+                   Category category, Set<Supplier> suppliers, Set<ProductStatus> productStatuses, String image1, String image2, Set<Document> documents) {
         this.productName = productName;
         this.code = code;
         this.purchasePrice = purchasePrice;
@@ -71,6 +76,7 @@ public class Product {
         this.image1 = image1;
         this.image2 = image2;
         this.productStatuses = productStatuses;
+        this.documents = documents;
     }
 
     public Integer getId() {
@@ -159,5 +165,13 @@ public class Product {
 
     public void setImage2(String image2) {
         this.image2 = image2;
+    }
+
+    public Set<Document> getDocuments() {
+        return documents;
+    }
+
+    public void setDocuments(Set<Document> documents) {
+        this.documents = documents;
     }
 }
