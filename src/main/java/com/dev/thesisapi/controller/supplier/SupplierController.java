@@ -26,8 +26,8 @@ public class SupplierController {
 
     @PostMapping("/create")
     public ResponseEntity<String> createSupplier(
-            @RequestPart("supplier") String supplierJson, // JSON part of the request
-            @RequestPart(value = "document0", required = false) MultipartFile[] documents // File part of the request
+            @RequestPart("supplier") String supplierJson,
+            @RequestPart(value = "document0", required = false) MultipartFile[] documents
     ) {
         try {
             // Parse the supplier JSON

@@ -6,7 +6,9 @@ import com.dev.thesisapi.dto.product.ProductCreateDto;
 import com.dev.thesisapi.entity.Product;
 import com.dev.thesisapi.service.ProductService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -25,7 +27,7 @@ public class ProductController {
     }
 
     @PostMapping("create")
-    public void create(@RequestBody ProductCreateDto productCreateDto) {
+    public void create(@RequestBody ProductCreateDto productCreateDto) throws IOException {
         productService.create(productCreateDto);
     }
 

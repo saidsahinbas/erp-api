@@ -1,5 +1,6 @@
 package com.dev.thesisapi.dto.product;
 
+import com.dev.thesisapi.entity.Document;
 import com.dev.thesisapi.entity.ProductStatus;
 import com.dev.thesisapi.entity.QualityParameter;
 import com.dev.thesisapi.entity.ValueType;
@@ -24,11 +25,15 @@ public class ProductCreateDto {
     private String image2;
     private Set<ProductStatus> productStatuses;
     private Set<QualityParameterDto> qualityParameterDtoSet;
+    private Set<Document> documents;
 
     public ProductCreateDto() {
     }
 
-    public ProductCreateDto(String name, String code, BigDecimal purchasePrice, BigDecimal salePrice, String description, Integer categoryId, List<Integer> supplierIds, String image1, String image2, Set<ProductStatus> productStatuses, Set<QualityParameterDto> qualityParameterDtoSet) {
+    public ProductCreateDto(String name, String code, BigDecimal purchasePrice, BigDecimal salePrice, String description,
+                            Integer categoryId, List<Integer> supplierIds, String image1, String image2,
+                            Set<ProductStatus> productStatuses, Set<QualityParameterDto> qualityParameterDtoSet,
+                            Set<Document> documents) {
         this.name = name;
         this.code = code;
         this.purchasePrice = purchasePrice;
@@ -40,6 +45,7 @@ public class ProductCreateDto {
         this.image2 = image2;
         this.productStatuses = productStatuses;
         this.qualityParameterDtoSet = qualityParameterDtoSet;
+        this.documents = documents;
     }
 
     public String getName() {
@@ -141,7 +147,17 @@ public class ProductCreateDto {
         return this;
     }
 
+    public Set<Document> getDocuments() {
+        return documents;
+    }
+
+    public ProductCreateDto setDocuments(Set<Document> documents) {
+        this.documents = documents;
+        return this;
+    }
+
     public static class QualityParameterDto {
+        private Integer id;
         private String name;
         private String description;
         private ValueType valueType;
@@ -153,7 +169,8 @@ public class ProductCreateDto {
         public QualityParameterDto() {
         }
 
-        public QualityParameterDto(String name, String maxValue, String minValue, ValueType valueType, String defaultValue, String description, String customValue) {
+        public QualityParameterDto(Integer id, String name, String maxValue, String minValue, ValueType valueType, String defaultValue, String description, String customValue) {
+            this.id = id;
             this.name = name;
             this.maxValue = maxValue;
             this.minValue = minValue;
@@ -161,6 +178,15 @@ public class ProductCreateDto {
             this.defaultValue = defaultValue;
             this.description = description;
             this.customValue = customValue;
+        }
+
+        public Integer getId() {
+            return id;
+        }
+
+        public QualityParameterDto setId(Integer id) {
+            this.id = id;
+            return this;
         }
 
         public String getMaxValue() {
