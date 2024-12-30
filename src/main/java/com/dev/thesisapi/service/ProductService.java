@@ -94,7 +94,6 @@ public class ProductService {
         }
     }
 
-
     public List<GetAllProductResponseDto> getAllProducts() {
         List<Product> products = productRepository.findAll();
         return products.stream().map(product -> {

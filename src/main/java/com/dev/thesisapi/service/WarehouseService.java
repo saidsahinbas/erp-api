@@ -18,4 +18,8 @@ public class WarehouseService {
     public List<Warehouse> getAllWarehouses() {
         return warehouseRepository.findAll();
     }
+
+    public Warehouse getWarehouse(Integer id) {
+        return warehouseRepository.findById(id).get();
+    }
 }
