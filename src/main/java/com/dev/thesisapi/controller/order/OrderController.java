@@ -38,7 +38,7 @@ public class OrderController {
         return orderService.getOrderById(id);
     }
 
-    @GetMapping("approvalOrder}")
+    @GetMapping("approvalOrder")
     public List<GetOrderByUserResponseDto> getOrderByApproval(){
         return orderService.getOrderByApproval();
     }
