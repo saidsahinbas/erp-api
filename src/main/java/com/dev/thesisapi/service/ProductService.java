@@ -123,4 +123,8 @@ public class ProductService {
                 .stream().map(Supplier::getName).collect(Collectors.toSet()));
         return dto;
     }
+
+    public Product getProductById(Integer id) {
+        return productRepository.findById(id).get();
+    }
 }
