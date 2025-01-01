@@ -1,5 +1,6 @@
 package com.dev.thesisapi.controller.category;
 
+import com.dev.thesisapi.dto.UpdateCategoryDto;
 import com.dev.thesisapi.entity.Category;
 import com.dev.thesisapi.service.CategoryService;
 import org.springframework.web.bind.annotation.*;
@@ -23,5 +24,15 @@ public class CategoryController {
     @GetMapping("all")
     public List<Category> getAllCategories() {
         return categoryService.getAllCategories();
+    }
+
+    @PutMapping("update")
+    public void updateCategory(@RequestBody UpdateCategoryDto category) {
+        categoryService.updateCategory(category);
+    }
+
+    @DeleteMapping("delete")
+    public void deleteCategory(@RequestParam("categoryId") Integer categoryId) {
+        categoryService.deleteCategory(categoryId);
     }
 }
