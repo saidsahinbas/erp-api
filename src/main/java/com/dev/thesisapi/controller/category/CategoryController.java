@@ -2,9 +2,7 @@ package com.dev.thesisapi.controller.category;
 
 import com.dev.thesisapi.entity.Category;
 import com.dev.thesisapi.service.CategoryService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -15,6 +13,11 @@ public class CategoryController {
 
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
+    }
+
+    @PostMapping("create")
+    public void createCategory(@RequestBody String categoryName) {
+        categoryService.createCategory(categoryName);
     }
 
     @GetMapping("all")

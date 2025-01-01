@@ -1,6 +1,10 @@
 package com.dev.thesisapi.dto.product;
 
+import com.dev.thesisapi.entity.Document;
+import com.dev.thesisapi.entity.QualityParameter;
+
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Set;
 
 public class GetSingleProductDetailDto {
@@ -15,12 +19,15 @@ public class GetSingleProductDetailDto {
     private Set<String> supplierNames;
     private String image1;
     private String image2;
+    private List<Document> documentList;
+    private List<QualityParameter> qualityParameterList;
 
     public GetSingleProductDetailDto() {
     }
 
     public GetSingleProductDetailDto(Integer id, String productName, String code, BigDecimal purchasePrice,
-                                    BigDecimal salePrice, String description, String categoryName, Set<String> productStatuses, Set<String> supplierNames, String image1, String image2) {
+                                    BigDecimal salePrice, String description, String categoryName, Set<String> productStatuses,
+                                     Set<String> supplierNames, String image1, String image2, List<Document> documentList, List<QualityParameter> qualityParameterList) {
         this.id = id;
         this.productName = productName;
         this.code = code;
@@ -32,6 +39,8 @@ public class GetSingleProductDetailDto {
         this.supplierNames = supplierNames;
         this.image1 = image1;
         this.image2 = image2;
+        this.documentList = documentList;
+        this.qualityParameterList = qualityParameterList;
     }
 
     public Integer getId() {
@@ -130,6 +139,24 @@ public class GetSingleProductDetailDto {
 
     public GetSingleProductDetailDto setImage2(String image2) {
         this.image2 = image2;
+        return this;
+    }
+
+    public List<Document> getDocumentList() {
+        return documentList;
+    }
+
+    public GetSingleProductDetailDto setDocumentList(List<Document> documentList) {
+        this.documentList = documentList;
+        return this;
+    }
+
+    public List<QualityParameter> getQualityParameterList() {
+        return qualityParameterList;
+    }
+
+    public GetSingleProductDetailDto setQualityParameterList(List<QualityParameter> qualityParameterList) {
+        this.qualityParameterList = qualityParameterList;
         return this;
     }
 }

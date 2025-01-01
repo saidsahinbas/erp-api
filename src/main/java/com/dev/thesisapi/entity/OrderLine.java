@@ -16,12 +16,17 @@ public class OrderLine {
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    private Order order;
+
     public OrderLine() {
     }
 
-    public OrderLine(Integer quantity, Product product) {
+    public OrderLine(Integer quantity, Product product, Order order) {
         this.quantity = quantity;
         this.product = product;
+        this.order = order;
     }
 
     public Integer getQuantity() {
@@ -46,5 +51,13 @@ public class OrderLine {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

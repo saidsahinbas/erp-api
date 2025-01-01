@@ -51,6 +51,7 @@ public class ProductService {
         var createdProduct = productRepository.save(product);
 
         for (Document document : productCreateDto.getDocuments()) {
+            document.setProduct(createdProduct);
             documentRepository.save(document);
         }
 
@@ -119,7 +120,7 @@ public class ProductService {
         dto.setProductStatuses(product.getProductStatuses()
                 .stream().map(ProductStatus::name).collect(Collectors.toSet())); // Map statuses
         dto.setSupplierNames(product.getSuppliers()
-                .stream().map(Supplier::getName).collect(Collectors.toSet())); // Map suppliers
+                .stream().map(Supplier::getName).collect(Collectors.toSet()));
         return dto;
     }
 }

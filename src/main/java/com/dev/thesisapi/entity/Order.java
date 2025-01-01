@@ -43,7 +43,7 @@ public class Order {
     @Column(name = "order_type")
     private OrderType orderType;
 
-    @OneToMany(mappedBy = "order_line")
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<OrderLine> orderLineList;
 
     @Column(name = "price")
