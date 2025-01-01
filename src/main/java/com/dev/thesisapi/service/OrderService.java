@@ -1,5 +1,6 @@
 package com.dev.thesisapi.service;
 
+import com.dev.thesisapi.dto.order.GetOrderByUserResponseDto;
 import com.dev.thesisapi.dto.order.OrderCreateDto;
 import com.dev.thesisapi.dto.order.OrderStatusDto;
 import com.dev.thesisapi.entity.*;
@@ -78,7 +79,7 @@ public class OrderService {
             order.setOrderStatus(OrderStatus.REJECTED);
         }
 
-        var savedOrder = orderRepository.save(order);
+        orderRepository.save(order);
 
         PurchaseOrderApproval purchaseOrderApproval = new PurchaseOrderApproval();
         purchaseOrderApproval.setOrder(order);
@@ -86,5 +87,45 @@ public class OrderService {
         purchaseOrderApproval.setApprovedAt(Instant.now());
         purchaseOrderApprovalService.save(purchaseOrderApproval);
 
+    }
+
+    public List<GetOrderByUserResponseDto> getOrderByUser(Integer userId) {
+        var user = userService.getUser(userId);
+        var orderList = orderRepository.findAllByUser(user);
+        List<GetOrderByUserResponseDto> getOrderByUserResponseDtoList = new ArrayList<>();
+        for (var order : orderList) {
+            GetOrderByUserResponseDto getOrderByUserResponseDto = new GetOrderByUserResponseDto();
+            getOrderByUserResponseDto.setOrderId(order.getId());
+            getOrderByUserResponseDto.setOrderStatus(order.getOrderStatus());
+            getOrderByUserResponseDto.setOrderTitle(order.getOrderTitle());
+            getOrderByUserResponseDto.setOrderDate(order.getCreationDate());
+            getOrderByUserResponseDto.setPrice(order.getPrice());
+            getOrderByUserResponseDto.setOrderUser(order.getUser().getFirstName() + " " + order.getUser().getLastName());
+            getOrderByUserResponseDtoList.add(getOrderByUserResponseDto);
+        }
+
+        return getOrderByUserResponseDtoList;
+    }
+
+    public Order getOrderById(Integer id) {
+        return orderRepository.findById(id).orElseThrow();
+    }
+
+
+    public List<GetOrderByUserResponseDto> getOrderByApproval() {
+        List<GetOrderByUserResponseDto> getOrderByUserResponseDtoList = new ArrayList<>();
+        var orderList = orderRepository.findAllByOrderStatus_Pending(OrderStatus.PENDING);
+        for (var order : orderList) {
+            GetOrderByUserResponseDto getOrderByUserResponseDto = new GetOrderByUserResponseDto();
+            getOrderByUserResponseDto.setOrderId(order.getId());
+            getOrderByUserResponseDto.setOrderStatus(order.getOrderStatus());
+            getOrderByUserResponseDto.setOrderTitle(order.getOrderTitle());
+            getOrderByUserResponseDto.setOrderDate(order.getCreationDate());
+            getOrderByUserResponseDto.setPrice(order.getPrice());
+            getOrderByUserResponseDto.setOrderUser(order.getUser().getFirstName() + " " + order.getUser().getLastName());
+            getOrderByUserResponseDtoList.add(getOrderByUserResponseDto);
+        }
+
+        return getOrderByUserResponseDtoList;
     }
 }
