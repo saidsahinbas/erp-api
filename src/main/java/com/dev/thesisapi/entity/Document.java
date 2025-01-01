@@ -1,5 +1,6 @@
 package com.dev.thesisapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -24,6 +25,7 @@ public class Document {
     @JoinColumn(name = "supplier_id", referencedColumnName = "id")
     private Supplier supplier;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
