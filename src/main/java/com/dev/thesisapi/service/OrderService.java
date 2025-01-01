@@ -1,9 +1,8 @@
 package com.dev.thesisapi.service;
 
 import com.dev.thesisapi.dto.order.OrderCreateDto;
-import com.dev.thesisapi.entity.Order;
-import com.dev.thesisapi.entity.OrderLine;
-import com.dev.thesisapi.entity.OrderType;
+import com.dev.thesisapi.dto.order.OrderStatusDto;
+import com.dev.thesisapi.entity.*;
 import com.dev.thesisapi.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,15 +19,17 @@ public class OrderService {
     private final WarehouseService warehouseService;
     private final ProductService productService;
     private final OrderLineService orderLineService;
+    private final PurchaseOrderApprovalService purchaseOrderApprovalService;
 
 
-    public OrderService(OrderRepository orderRepository, UserService userService, SupplierService supplierService, WarehouseService warehouseService, ProductService productService, OrderLineService orderLineService) {
+    public OrderService(OrderRepository orderRepository, UserService userService, SupplierService supplierService, WarehouseService warehouseService, ProductService productService, OrderLineService orderLineService, PurchaseOrderApprovalService purchaseOrderApprovalService) {
         this.orderRepository = orderRepository;
         this.userService = userService;
         this.supplierService = supplierService;
         this.warehouseService = warehouseService;
         this.productService = productService;
         this.orderLineService = orderLineService;
+        this.purchaseOrderApprovalService = purchaseOrderApprovalService;
     }
 
     public void create(OrderCreateDto orderCreateDto) {
@@ -64,5 +65,26 @@ public class OrderService {
         saveOrder.setOrderLineList(orderLineList);
 
         orderRepository.save(saveOrder);
+    }
+
+    public void purchaseApproval(OrderStatusDto orderStatusDto) {
+        //order In statüsü değişecek ya onaylanacak ya da reddedilecek
+        Order order = orderRepository.findById(orderStatusDto.getOrderId()).orElseThrow();
+        var user = userService.getUser(orderStatusDto.getUserId());
+
+        if (orderStatusDto.getStatus()){
+            order.setOrderStatus(OrderStatus.APPROVED);
+        }else {
+            order.setOrderStatus(OrderStatus.REJECTED);
+        }
+
+        var savedOrder = orderRepository.save(order);
+
+        PurchaseOrderApproval purchaseOrderApproval = new PurchaseOrderApproval();
+        purchaseOrderApproval.setOrder(order);
+        purchaseOrderApproval.setUser(user);
+        purchaseOrderApproval.setApprovedAt(Instant.now());
+        purchaseOrderApprovalService.save(purchaseOrderApproval);
+
     }
 }
