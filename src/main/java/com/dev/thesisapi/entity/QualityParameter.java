@@ -1,5 +1,6 @@
 package com.dev.thesisapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -32,6 +33,7 @@ public class QualityParameter {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id", referencedColumnName = "id")
+    @JsonIgnore
     private Product product;
 
 

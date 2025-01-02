@@ -6,6 +6,7 @@ import com.dev.thesisapi.repository.base.CrudRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -20,4 +21,5 @@ public interface ProductSupplierRepository extends CrudRepository<ProductSupplie
 
     ProductSupplier save(ProductSupplier productSupplier);
 
+    List<ProductSupplier> findByProductId(Integer productId);
 }
