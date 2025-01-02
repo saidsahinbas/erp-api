@@ -73,7 +73,6 @@ public class StockService {
     }
 
     public List<Stock> getAllStocks() {
-        System.out.println(stockRepository.findById(102).get().getProductSupplier().getProduct().getCategory().getCategoryName());
         return stockRepository.findAll();
     }
 }
