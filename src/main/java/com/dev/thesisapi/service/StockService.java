@@ -1,6 +1,7 @@
 package com.dev.thesisapi.service;
 
 import com.dev.thesisapi.dto.stock.CreateStockRequestDto;
+import com.dev.thesisapi.dto.stock.GetAllStockResponseDto;
 import com.dev.thesisapi.entity.*;
 import com.dev.thesisapi.repository.ProductSupplierRepository;
 import com.dev.thesisapi.repository.StockRepository;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StockService {
@@ -72,8 +74,30 @@ public class StockService {
         }
     }
 
-    public List<Stock> getAllStocks() {
-        return stockRepository.findAll();
+
+    public List<GetAllStockResponseDto> getStocksByFilter(String productName, String productCode,
+                                                          String categoryName, String supplierName,
+                                                          String warehouseName) {
+        var stocks = stockRepository
+                .findBYProductNameAndProductCodeAndCategoryNameAndSupplierNameAndWarehouseName(productName,
+                        productCode, categoryName, supplierName, warehouseName);
+        return stocks.stream().map(stock -> {
+            var productSupplier = stock.getProductSupplier();
+            var product = productSupplier.getProduct();
+            var category = product.getCategory();
+            var supplier = productSupplier.getSupplier();
+            var warehouse = stock.getWarehouse();
+
+            return new GetAllStockResponseDto()
+                    .setBillNumber(stock.getId())
+                    .setWarehouseName(warehouse.getName())
+                    .setProductName(product.getProductName())
+                    .setQuantity(stock.getQuantity())
+                    .setCriticalLevel(stock.getCriticalLevel())
+                    .setSupplierName(supplier.getName())
+                    .setStatus(stock.getStatus())
+                    .setCategoryName(category.getCategoryName());
+        }).collect(Collectors.toList());
     }
 }
 

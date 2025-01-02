@@ -8,6 +8,7 @@ public class GetAllStockResponseDto {
     private String warehouseName;
     private String productName;
     private Integer quantity;
+    private Integer criticalLevel;
     private String supplierName;
     private StockStatus status;
     private String categoryName;
@@ -16,12 +17,14 @@ public class GetAllStockResponseDto {
     }
 
     public GetAllStockResponseDto(Integer id, Integer billNumber, String warehouseName, String productName,
-                                  Integer quantity, String supplierName, StockStatus status, String categoryName) {
+                                  Integer quantity, Integer criticalLevel, String supplierName, StockStatus status,
+                                  String categoryName) {
         this.id = id;
         this.billNumber = billNumber;
         this.warehouseName = warehouseName;
         this.productName = productName;
         this.quantity = quantity;
+        this.criticalLevel = criticalLevel;
         this.supplierName = supplierName;
         this.status = status;
         this.categoryName = categoryName;
@@ -69,6 +72,15 @@ public class GetAllStockResponseDto {
 
     public GetAllStockResponseDto setQuantity(Integer quantity) {
         this.quantity = quantity;
+        return this;
+    }
+
+    public Integer getCriticalLevel() {
+        return criticalLevel;
+    }
+
+    public GetAllStockResponseDto setCriticalLevel(Integer criticalLevel) {
+        this.criticalLevel = criticalLevel;
         return this;
     }
 
