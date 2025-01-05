@@ -22,4 +22,7 @@ public interface ProductSupplierRepository extends CrudRepository<ProductSupplie
     ProductSupplier save(ProductSupplier productSupplier);
 
     List<ProductSupplier> findByProductId(Integer productId);
+
+    @Query("SELECT ps.product.id FROM ProductSupplier ps WHERE ps.supplier.id = :supplierId")
+    List<Integer> findProductIdsBySupplierId(Integer supplierId);
 }

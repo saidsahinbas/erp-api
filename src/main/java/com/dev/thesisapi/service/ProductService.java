@@ -1,6 +1,7 @@
 package com.dev.thesisapi.service;
 
 import com.dev.thesisapi.dto.product.GetAllProductResponseDto;
+import com.dev.thesisapi.dto.product.GetProductsBySupplierDto;
 import com.dev.thesisapi.dto.product.GetSingleProductDetailDto;
 import com.dev.thesisapi.dto.product.ProductCreateDto;
 import com.dev.thesisapi.entity.*;
@@ -25,7 +26,8 @@ public class ProductService {
     public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository,
                           SupplierRepository supplierRepository, QualityParameterRepository qualityParameterRepository,
                           ProductSupplierQualityParameterRepository productSupplierQualityParameterRepository,
-                          ProductSupplierService productSupplierService, DocumentRepository documentRepository, ProductSupplierRepository productSupplierRepository) {
+                          ProductSupplierService productSupplierService, DocumentRepository documentRepository,
+                          ProductSupplierRepository productSupplierRepository) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.supplierRepository = supplierRepository;
@@ -126,5 +128,26 @@ public class ProductService {
 
     public Product getProductById(Integer id) {
         return productRepository.findById(id).get();
+    }
+
+    public GetProductsBySupplierDto getProductsBySupplier(String supplierName) {
+        var supplierId = supplierRepository.findSupplierIdByName(supplierName);
+        var productIds = productSupplierRepository.findProductIdsBySupplierId(supplierId);
+
+        GetProductsBySupplierDto dto = new GetProductsBySupplierDto();
+        dto.setSupplierId(supplierId);
+        dto.setSupplierName(supplierName);
+
+        List<GetProductsBySupplierDto.ProductListDto> products = productIds.stream().map(productId -> {
+            var product = productRepository.findById(productId).get();
+            return new GetProductsBySupplierDto.ProductListDto()
+                    .setProductId(product.getId())
+                    .setProductName(product.getProductName())
+                    .setPurchasePrice(product.getPurchasePrice())
+                    .setSalePrice(product.getSalePrice())
+                    .setCategoryName(product.getCategory().getCategoryName());
+        }).toList();
+        dto.setProducts(products);
+        return dto;
     }
 }

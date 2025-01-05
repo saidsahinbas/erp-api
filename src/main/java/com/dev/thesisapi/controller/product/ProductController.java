@@ -1,6 +1,7 @@
 package com.dev.thesisapi.controller.product;
 
 import com.dev.thesisapi.dto.product.GetAllProductResponseDto;
+import com.dev.thesisapi.dto.product.GetProductsBySupplierDto;
 import com.dev.thesisapi.dto.product.GetSingleProductDetailDto;
 import com.dev.thesisapi.dto.product.ProductCreateDto;
 import com.dev.thesisapi.entity.Product;
@@ -34,5 +35,10 @@ public class ProductController {
     @GetMapping("{id}")
     public GetSingleProductDetailDto getProduct(@PathVariable Integer id) {
         return productService.getProduct(id);
+    }
+
+    @GetMapping("by-supplier/{supplierName}")
+    public GetProductsBySupplierDto getProductsBySupplier(@PathVariable String supplierName) {
+        return productService.getProductsBySupplier(supplierName);
     }
 }
