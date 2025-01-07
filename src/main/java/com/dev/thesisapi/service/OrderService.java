@@ -114,7 +114,7 @@ public class OrderService {
 
     public List<GetOrderByUserResponseDto> getOrderByApproval() {
         List<GetOrderByUserResponseDto> getOrderByUserResponseDtoList = new ArrayList<>();
-        var orderList = orderRepository.findAllByOrderStatus(OrderStatus.PENDING); //Onay bekleyen siparişler
+        var orderList = orderRepository.findAllByOrders(); //Onay bekleyen siparişler
         for (var order : orderList) {
             GetOrderByUserResponseDto getOrderByUserResponseDto = new GetOrderByUserResponseDto();
             getOrderByUserResponseDto.setOrderId(order.getId());

@@ -14,4 +14,7 @@ public interface OrderRepository extends CrudRepository<Order, Integer> {
     List<Order> findAllByUser(User user);
 
     List<Order> findAllByOrderStatus(OrderStatus orderStatus);
+
+    @Query("SELECT o FROM Order o")
+    List<Order> findAllByOrders();
 }
