@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface OrderRepository extends CrudRepository<Order, Integer> {
+
     Order save(Order order);
 
     List<Order> findAllByUser(User user);
@@ -17,4 +18,5 @@ public interface OrderRepository extends CrudRepository<Order, Integer> {
 
     @Query("SELECT o FROM Order o")
     List<Order> findAllByOrders();
+
 }

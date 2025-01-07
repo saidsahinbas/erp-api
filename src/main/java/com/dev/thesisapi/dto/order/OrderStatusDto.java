@@ -1,11 +1,14 @@
 package com.dev.thesisapi.dto.order;
 
+import com.dev.thesisapi.entity.OrderStatus;
+
 public class OrderStatusDto {
     private Integer orderId;
     private Integer userId;
-    private Boolean status;
+    private OrderStatus status;
 
-    public OrderStatusDto(Integer orderId, Integer userId, Boolean status) {
+
+    public OrderStatusDto(Integer orderId, Integer userId, OrderStatus status) {
         this.orderId = orderId;
         this.userId = userId;
         this.status = status;
@@ -32,11 +35,11 @@ public class OrderStatusDto {
         return this;
     }
 
-    public Boolean getStatus() {
+    public OrderStatus getStatus() {
         return status;
     }
 
-    public OrderStatusDto setStatus(Boolean status) {
+    public OrderStatusDto setStatus(OrderStatus status) {
         this.status = status;
         return this;
     }

@@ -69,15 +69,14 @@ public class OrderService {
     }
 
     public void purchaseApproval(OrderStatusDto orderStatusDto) {
+        if (!orderStatusDto.getStatus().equals(OrderStatus.APPROVED) && !orderStatusDto.getStatus().equals(OrderStatus.REJECTED)){
+            updateOrderStatus(orderStatusDto);
+            return;
+        }
         //order In statüsü değişecek ya onaylanacak ya da reddedilecek
         Order order = orderRepository.findById(orderStatusDto.getOrderId()).orElseThrow();
         var user = userService.getUser(orderStatusDto.getUserId());
-
-        if (orderStatusDto.getStatus()){
-            order.setOrderStatus(OrderStatus.APPROVED);
-        }else {
-            order.setOrderStatus(OrderStatus.REJECTED);
-        }
+        order.setOrderStatus(orderStatusDto.getStatus());
 
         orderRepository.save(order);
 
@@ -87,6 +86,15 @@ public class OrderService {
         purchaseOrderApproval.setApprovedAt(Instant.now());
         purchaseOrderApprovalService.save(purchaseOrderApproval);
 
+    }
+
+    public void updateOrderStatus(OrderStatusDto orderStatusDto) {
+        Order order = orderRepository.findById(orderStatusDto.getOrderId()).get();
+        order.setOrderStatus(orderStatusDto.getStatus());
+        order.setCreationDate(Instant.now());
+        var user = userService.getUser(orderStatusDto.getUserId());
+        order.setUser(user);
+        orderRepository.save(order);
     }
 
     public List<GetOrderByUserResponseDto> getOrderByUser(Integer userId) {
