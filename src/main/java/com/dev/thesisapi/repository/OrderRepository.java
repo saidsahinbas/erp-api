@@ -19,4 +19,5 @@ public interface OrderRepository extends CrudRepository<Order, Integer> {
     @Query("SELECT o FROM Order o")
     List<Order> findAllByOrders();
 
+    List<Order> findAll();
 }

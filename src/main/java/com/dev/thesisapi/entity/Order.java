@@ -49,10 +49,16 @@ public class Order {
     @Column(name = "price")
     private BigDecimal price;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "quality_control_result_id", referencedColumnName = "id")
+    private QualityControlResult qualityControlResult;
+
     public Order() {
     }
 
-    public Order(List<OrderLine> orderLineList, OrderType orderType, OrderStatus orderStatus, Supplier supplier, String description, Warehouse warehouse, Instant creationDate, User user, String orderTitle, BigDecimal price) {
+    public Order(List<OrderLine> orderLineList, OrderType orderType, OrderStatus orderStatus, Supplier supplier,
+                 String description, Warehouse warehouse, Instant creationDate, User user, String orderTitle,
+                 BigDecimal price, QualityControlResult qualityControlResult) {
         this.orderLineList = orderLineList;
         this.orderType = orderType;
         this.orderStatus = orderStatus;
@@ -63,6 +69,7 @@ public class Order {
         this.user = user;
         this.orderTitle = orderTitle;
         this.price = price;
+        this.qualityControlResult = qualityControlResult;
     }
 
     public Integer getId() {
@@ -151,5 +158,13 @@ public class Order {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public QualityControlResult getQualityControlResult() {
+        return qualityControlResult;
+    }
+
+    public void setQualityControlResult(QualityControlResult qualityControlResult) {
+        this.qualityControlResult = qualityControlResult;
     }
 }

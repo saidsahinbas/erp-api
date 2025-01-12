@@ -1,5 +1,6 @@
 package com.dev.thesisapi.service;
 
+import com.dev.thesisapi.entity.AuthorityGroup;
 import com.dev.thesisapi.entity.Document;
 import com.dev.thesisapi.entity.DocumentType;
 import com.dev.thesisapi.entity.Supplier;
@@ -62,4 +63,5 @@ public class SupplierService {
         }
         return DocumentType.TEXT;
     }
+
 }

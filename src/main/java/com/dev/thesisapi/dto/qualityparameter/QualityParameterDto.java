@@ -1,5 +1,7 @@
 package com.dev.thesisapi.dto.qualityparameter;
 
+import com.dev.thesisapi.entity.ValueType;
+
 public class QualityParameterDto {
     private Integer id;
     private String name;
@@ -7,18 +9,20 @@ public class QualityParameterDto {
     private String defaultValue;
     private String minValue;
     private String maxValue;
+    private ValueType valueType;
 
     public QualityParameterDto() {
     }
 
     public QualityParameterDto(Integer id, String name, String description, String defaultValue,
-                               String minValue, String maxValue) {
+                               String minValue, String maxValue, ValueType valueType) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.defaultValue = defaultValue;
         this.minValue = minValue;
         this.maxValue = maxValue;
+        this.valueType = valueType;
     }
 
     public Integer getId() {
@@ -72,6 +76,15 @@ public class QualityParameterDto {
 
     public QualityParameterDto setMaxValue(String maxValue) {
         this.maxValue = maxValue;
+        return this;
+    }
+
+    public ValueType getValueType() {
+        return valueType;
+    }
+
+    public QualityParameterDto setValueType(ValueType valueType) {
+        this.valueType = valueType;
         return this;
     }
 }

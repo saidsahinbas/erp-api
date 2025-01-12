@@ -48,10 +48,19 @@ public class Supplier {
     @JsonIgnore
     private City city;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "current_quality_level")
+    private Level currentQualityLevel; // Enum seviyesini saklar
+
+    @Column(name = "score")
+    private Integer score = 0;
+
     public Supplier() {
     }
 
-    public Supplier(String name, String email, String phone, String note, Set<Product> products, Set<Document> documents, SupplierStatus status, Country country, City city) {
+    public Supplier(String name, String email, String phone, String note, Set<Product> products,
+                    Set<Document> documents, SupplierStatus status, Country country, City city,
+                    Level currentQualityLevel, Integer score) {
         this.name = name;
         this.email = email;
         this.phone = phone;
@@ -61,6 +70,8 @@ public class Supplier {
         this.status = status;
         this.country = country;
         this.city = city;
+        this.currentQualityLevel = currentQualityLevel;
+        this.score = score;
     }
 
     public Integer getId() {
@@ -141,5 +152,21 @@ public class Supplier {
 
     public void setCity(City city) {
         this.city = city;
+    }
+
+    public Level getCurrentQualityLevel() {
+        return currentQualityLevel;
+    }
+
+    public void setCurrentQualityLevel(Level currentQualityLevel) {
+        this.currentQualityLevel = currentQualityLevel;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
     }
 }

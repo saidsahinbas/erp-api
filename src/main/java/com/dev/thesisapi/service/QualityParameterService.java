@@ -69,7 +69,8 @@ public class QualityParameterService {
                         qp.getDescription(),
                         qp.getDefaultValue(),
                         qp.getMinValue(),
-                        qp.getMaxValue()
+                        qp.getMaxValue(),
+                        qp.getValueType()
                 ))
                 .collect(Collectors.toList());
     }
