@@ -1,5 +1,6 @@
 package com.dev.thesisapi.repository;
 
+import com.dev.thesisapi.entity.ProductSupplier;
 import com.dev.thesisapi.entity.Stock;
 import com.dev.thesisapi.repository.base.CrudRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,4 +23,7 @@ public interface StockRepository extends CrudRepository<Stock, Integer> {
             @Param("categoryName") String categoryName,
             @Param("supplierName") String supplierName,
             @Param("warehouseName") String warehouseName);
+
+
+    Stock findFirstByProductSupplier(ProductSupplier productSupplier);
 }

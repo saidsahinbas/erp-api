@@ -1,5 +1,6 @@
 package com.dev.thesisapi.controller.supplier;
 
+import com.dev.thesisapi.dto.supplier.SupplierDetailDto;
 import com.dev.thesisapi.entity.Supplier;
 import com.dev.thesisapi.service.SupplierService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -43,4 +44,10 @@ public class SupplierController {
             return ResponseEntity.status(500).body("Error creating supplier: " + e.getMessage());
         }
     }
+
+    @GetMapping("/{id}")
+    public Supplier getSupplierDetail(@PathVariable Integer id) {
+        return supplierService.findById(id);
+    }
+
 }

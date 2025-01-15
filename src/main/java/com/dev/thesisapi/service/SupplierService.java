@@ -1,11 +1,13 @@
 package com.dev.thesisapi.service;
 
+import com.dev.thesisapi.dto.supplier.SupplierDetailDto;
 import com.dev.thesisapi.entity.AuthorityGroup;
 import com.dev.thesisapi.entity.Document;
 import com.dev.thesisapi.entity.DocumentType;
 import com.dev.thesisapi.entity.Supplier;
 import com.dev.thesisapi.repository.DocumentRepository;
 import com.dev.thesisapi.repository.SupplierRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

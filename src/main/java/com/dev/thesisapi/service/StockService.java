@@ -7,6 +7,7 @@ import com.dev.thesisapi.repository.ProductSupplierRepository;
 import com.dev.thesisapi.repository.StockRepository;
 import com.dev.thesisapi.repository.SupplierRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
@@ -98,6 +99,15 @@ public class StockService {
                     .setStatus(stock.getStatus())
                     .setCategoryName(category.getCategoryName());
         }).collect(Collectors.toList());
+    }
+
+    public Stock getFirstStockByProductSupplier(ProductSupplier productSupplier) {
+        return stockRepository.findFirstByProductSupplier(productSupplier);
+    }
+
+    @Transactional
+    public void save(Stock stock) {
+        stockRepository.save(stock);
     }
 }
 

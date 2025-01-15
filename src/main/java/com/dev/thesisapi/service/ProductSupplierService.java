@@ -34,4 +34,12 @@ public class ProductSupplierService {
         }
         return listSuppliers;
     }
+
+    public ProductSupplier findFirstByProductIdAndSupplierId(Integer productId, Integer supplierId) {
+        return productSupplierRepository.findFirstByProductIdAndSupplierId(productId, supplierId);
+    }
+
+    public void save(ProductSupplier productSupplier) {
+        productSupplierRepository.save(productSupplier);
+    }
 }

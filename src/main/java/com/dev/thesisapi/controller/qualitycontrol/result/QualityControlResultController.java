@@ -1,10 +1,9 @@
 package com.dev.thesisapi.controller.qualitycontrol.result;
 
 import com.dev.thesisapi.dto.qualitycontrol.QualityControlResultListDto;
+import com.dev.thesisapi.dto.qualitycontrol.QualityTestResultInfoFromFrontendDto;
 import com.dev.thesisapi.service.QualityControlResultService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,4 +22,8 @@ public class QualityControlResultController {
         return service.getAll();
     }
 
+    @PostMapping("/save-result")
+    public void saveResult(@RequestBody QualityTestResultInfoFromFrontendDto qualityTestResultInfoFromFrontendDto) {
+        service.saveResult(qualityTestResultInfoFromFrontendDto);
+    }
 }
