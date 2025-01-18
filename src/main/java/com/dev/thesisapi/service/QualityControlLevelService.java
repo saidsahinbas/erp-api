@@ -31,7 +31,7 @@ public class QualityControlLevelService {
         return repository.findAll();
     }
 
-    public List<SampleApproveAndRejectSizeByProductDto>     defineQualityParametersSampleApproveAndRejectSize(Integer orderId) {
+    public List<SampleApproveAndRejectSizeByProductDto> defineQualityParametersSampleApproveAndRejectSize(Integer orderId) {
         List<SampleApproveAndRejectSizeByProductDto> sampleApproveAndRejectSizeByProductDtos = new ArrayList<>();
 
         // Retrieve order and supplier level
@@ -39,30 +39,39 @@ public class QualityControlLevelService {
         var supplierLevel = order.getSupplier().getCurrentQualityLevel();
 
         for (OrderLine orderLine : order.getOrderLineList()) {
+            // Ürün ve miktar bilgilerini al
             var quantity = orderLine.getQuantity();
             var product = orderLine.getProduct();
 
-            // Retrieve quality parameters for the product
+            // Ürün için kalite parametrelerini al
             var qualityParameters = qualityParameterService.getByProduct(product.getId());
 
-            // Retrieve the quality control level for the supplier level and quantity
-            QualityControlLevel qualityControlLevel = repository.findByLevelAndQuantity(supplierLevel, quantity);
+            // Miktar 1000'den fazlaysa 1000 gibi davran
+            int effectiveQuantity = Math.min(quantity, 1000);
 
-            if (qualityControlLevel != null) {
-                // Map the retrieved data to the DTO
-                SampleApproveAndRejectSizeByProductDto dto = new SampleApproveAndRejectSizeByProductDto();
-                dto.setProductId(product.getId());
-                dto.setProductName(product.getProductName());
-                dto.setSampleSize(qualityControlLevel.getSampleSize());
-                dto.setApproveSize(qualityControlLevel.getAcceptedLimit());
-                dto.setRejectSize(qualityControlLevel.getRejectedLimit());
-                dto.setSupplierLevel(supplierLevel);
-                dto.setProductQuantity(quantity);
-                dto.setQualityParameters(qualityParameters);
-                sampleApproveAndRejectSizeByProductDtos.add(dto);
+            // Tedarikçi seviyesi ve miktara göre kalite kontrol seviyesini al
+            QualityControlLevel qualityControlLevel = repository.findByLevelAndQuantity(supplierLevel, effectiveQuantity);
+
+            if (qualityControlLevel == null) {
+                throw new IllegalArgumentException("Quality control level could not be found for quantity: " + effectiveQuantity);
             }
+
+            // Veriyi DTO'ya map et
+            SampleApproveAndRejectSizeByProductDto dto = new SampleApproveAndRejectSizeByProductDto();
+            dto.setProductId(product.getId());
+            dto.setProductName(product.getProductName());
+            dto.setSampleSize(qualityControlLevel.getSampleSize());
+            dto.setApproveSize(qualityControlLevel.getAcceptedLimit());
+            dto.setRejectSize(qualityControlLevel.getRejectedLimit());
+            dto.setSupplierLevel(supplierLevel);
+            dto.setProductQuantity(quantity); // Orijinal miktarı set ediyoruz
+            dto.setQualityParameters(qualityParameters);
+
+            // DTO'yu listeye ekle
+            sampleApproveAndRejectSizeByProductDtos.add(dto);
         }
 
         return sampleApproveAndRejectSizeByProductDtos;
     }
+
 }
