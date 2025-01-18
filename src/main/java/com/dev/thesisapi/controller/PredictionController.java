@@ -1,5 +1,6 @@
 package com.dev.thesisapi.controller;
 
+import com.dev.thesisapi.service.PredictionService;
 import hex.genmodel.MojoModel;
 import hex.genmodel.easy.EasyPredictModelWrapper;
 import hex.genmodel.easy.RowData;
@@ -7,6 +8,8 @@ import hex.genmodel.easy.prediction.MultinomialModelPrediction;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -14,25 +17,50 @@ import java.util.Map;
 public class PredictionController {
 
     private final EasyPredictModelWrapper model;
+    private final PredictionService predictionService;
 
-    public PredictionController() throws Exception {
+    public PredictionController(PredictionService predictionService) throws Exception {
         this.model = new EasyPredictModelWrapper(MojoModel.load("src/main/resources/DRF_model_python_1737059637636_2.zip"));
+        this.predictionService = predictionService;
     }
 
-    @PostMapping
-    public String predict(@RequestBody Map<String, Object> features) throws Exception {
+    @PostMapping("/analyze-and-predict")
+    public Object analyzeAndPredict(@RequestBody Map<String, String> filters) throws Exception {
+        Object analysisResult = predictionService.filterAndCalculate(filters.get("supplierId"), filters.get("productId"));
+
+        if (analysisResult instanceof Map) {
+            // Tek bir sonuç varsa direkt tahmin yap
+            return makePrediction((Map<String, Object>) analysisResult);
+        } else if (analysisResult instanceof List) {
+            // Liste döndürülmüşse her bir öğe için tahmin yap
+            return ((List<Map<String, Object>>) analysisResult)
+                    .stream()
+                    .map(this::makePrediction)
+                    .toList();
+        } else {
+            throw new IllegalStateException("Unexpected result type");
+        }
+    }
+
+
+    private Map<String, Object> makePrediction(Map<String, Object> features) {
+        // ImmutableMap'i mutable bir Map'e dönüştür
+        Map<String, Object> mutableFeatures = new HashMap<>(features);
+
         RowData row = new RowData();
-        row.put("total_order_count", features.get("total_order_count").toString());
-        row.put("total_success_order_count", features.get("total_success_order_count").toString());
-        row.put("sample_size", features.get("sample_size").toString());
-        row.put("success_sample_size", features.get("success_sample_size").toString());
-        row.put("order_status_1", features.get("order_status_1").toString());
-        row.put("order_status_2", features.get("order_status_2").toString());
-        row.put("order_status_3", features.get("order_status_3").toString());
+        mutableFeatures.forEach((key, value) -> row.put(key, value.toString()));
 
-        MultinomialModelPrediction prediction = (MultinomialModelPrediction) model.predict(row);
+        try {
+            MultinomialModelPrediction prediction = (MultinomialModelPrediction) model.predict(row);
 
-        return String.format("Predicted label: %s, Probabilities: %s",
-                prediction.label, Arrays.toString(prediction.classProbabilities));
+            // Add prediction to the result
+            mutableFeatures.put("predicted_label", prediction.label);
+            mutableFeatures.put("probabilities", Arrays.toString(prediction.classProbabilities));
+        } catch (Exception e) {
+            mutableFeatures.put("error", "Prediction failed: " + e.getMessage());
+        }
+
+        return mutableFeatures;
     }
+
 }

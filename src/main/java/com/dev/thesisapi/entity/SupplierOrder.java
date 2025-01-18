@@ -34,7 +34,7 @@ public class    SupplierOrder {
     @Column(name = "total_test_rate")
     private Double totalTestRate;
 
-    @Column(name = "total_test_count")
+    @Column(name = "created_at")
     private Instant createdAt;
 
     @Column(name = "sample_size")

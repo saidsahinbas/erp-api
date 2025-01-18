@@ -34,4 +34,20 @@ public class SupplierOrderController {
     public List<SupplierOrderFilteredResponseDto> getAll() {
         return supplierOrderService.getAll();
     }
+
+    @PostMapping("/generate-input")
+    public Map<String, Object> generateInput(@RequestBody Map<String, String> filters) {
+        String supplierId = filters.get("supplierId");
+        String productId = filters.get("productId");
+
+        if (supplierId == null || productId == null || supplierId.isEmpty() || productId.isEmpty()) {
+            throw new IllegalArgumentException("Supplier ID and Product ID must be provided");
+        }
+
+        Integer supplierIdInt = Integer.parseInt(supplierId);
+        Integer productIdInt = Integer.parseInt(productId);
+
+        return supplierOrderService.generatePredictionInput(supplierIdInt, productIdInt);
+    }
+
 }
